@@ -24,7 +24,7 @@ app = Flask(__name__)
 def hello_world():
     userss = liste_user()
     texte = 'hello'
-    send_text(userss[0][0])
+    send_text(userss[0][0],texte)
     return 'Hello World!'
 
 ############   MSG ACCUEIL   ######
