@@ -314,15 +314,30 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 
-schedule.every(1).minutes.do(save_news)
-schedule.every().day.at("7:00").do(send_welcome)
-while True:
+#schedule.every(1).minutes.do(save_news)
+#schedule.every().day.at("7:00").do(send_welcome)
+#while True:
     #time.sleep(10)
-    schedule.run_pending()
-    time.sleep(30)
+    #schedule.run_pending()
+    #time.sleep(30)
+
+start_time = time.time()
+
+def run_every_10_seconds():
+    print("Running periodic task!")
+    print "Elapsed time: " + str(time.time() - start_time)
+
+def run_schedule():
+    while 1:
+        schedule.run_pending()
+        time.sleep(1) 
 
 @app.route('/')
 def mainscript():
     return 'Hello World!'
 if __name__ == '__main__':
+    schedule.every(10).seconds.do(run_every_10_seconds)
+    t = Thread(target=run_schedule)
+    t.start()
+    print "Start time: " + str(start_time)
     app.run()
