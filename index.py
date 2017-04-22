@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 import time
 import schedule
 from sqlalchemy import *
+from datetime import datetime 
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -318,11 +319,10 @@ start_time = time.time()
 #schedule.every().day.at("7:00").do(send_welcome)
 #schedule.run_pending()
 while True:
-    time.sleep(1)
+    time.sleep(5)
     print("Elapsed time: " + str(time.time() - start_time))
-    if (time.time() - start_time)>30 : 
-        print("30sec !")
-        start_time = time.time()
+    if datetime.now().hour==18 and datetime.now().minute==15 : 
+        print("18h15")
     print('en vie')
 
 @app.route('/')
@@ -330,4 +330,4 @@ def mainscript():
     return 'Hello World!'
 
 if __name__ == '__main__':
-    app.run(use_reloader=False)
+    app.run()
