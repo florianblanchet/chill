@@ -6,6 +6,10 @@ from bs4 import BeautifulSoup
 import urllib.request
 from sqlalchemy.orm import sessionmaker
 
+texte ='salut'
+payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
+send_paquet(token,payload)
+
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 
@@ -23,7 +27,7 @@ def liste_user():
     liste_id=[]
     for userss in session.query(users):
         liste_id.append([str(userss.user_id),str(userss.first_name)])
-    return liste_id
+    return liste_id 
 
 def send_paquet(sender,payload):
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
