@@ -19,22 +19,12 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 app = Flask(__name__)
-schedule.every(10).minutes.do(save_news)
-schedule.every().day.at("7:00").do(send_welcome)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
-@app.route('/')
-def mainscript():
-    return 'Hello World!'
-
 ############   MSG ACCUEIL   ######
 def liste_user():
     liste_id=[]
     for userss in session.query(users):
         liste_id.append([str(userss.user_id),str(userss.first_name)])
     return liste_id 
-
 def send_paquet(sender,payload):
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
     print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
@@ -324,6 +314,15 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 
+schedule.every(10).minutes.do(save_news)
+schedule.every().day.at("7:00").do(send_welcome)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+    print('en vie')
+@app.route('/')
+def mainscript():
+    return 'Hello World!'
 
 if __name__ == '__main__':
     app.run()
