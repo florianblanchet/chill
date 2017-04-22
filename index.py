@@ -21,7 +21,8 @@ session = Session()
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
+def mainscript():
+    save_news()
     userss = liste_user()
     texte = 'hello'
     payload = send_text(userss[0][0],texte)
