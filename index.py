@@ -1,6 +1,5 @@
 import requests
 import os
-import urllib.request
 token = os.environ.get('FB_ACCESS_TOKEN')
 texte ='salut'
 payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
