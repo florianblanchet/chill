@@ -321,16 +321,19 @@ start_time = time.time()
 while True:
     time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
-    if datetime.now().hour==18 and datetime.now().minute==30 : 
-        texte = 'il est 18h35'
+    if datetime.now().hour==18 and datetime.now().minute==45 : 
+        save_news()
+        texte = 'il est 18h45'
         token = os.environ.get('FB_ACCESS_TOKEN')
         payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
         r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-        print(r.text)
-        print("18h25")
-        time.sleep(60)
-    print('en vie')
-
+        print("18h40")
+    #print('en vie')
+#texte = 'il est 18h35'
+#        token = os.environ.get('FB_ACCESS_TOKEN')
+#        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
+#        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+#        print(r.text)
 @app.route('/')
 def mainscript():
     return 'Hello World!'
