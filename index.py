@@ -3,8 +3,8 @@ import schedule
 from sqlalchemy import *
 import requests
 from bs4 import BeautifulSoup
-import urllib.request
 from sqlalchemy.orm import sessionmaker
+import os
 
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
