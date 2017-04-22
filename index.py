@@ -24,12 +24,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    save_news()
-    schedule.every(10).minutes.do(save_news)
-    schedule.every().day.at("15:00").do(send_welcome)
-    while True:
-       schedule.run_pending()
-       time.sleep(1)
+    
     return 'Hello World!'
 
 
