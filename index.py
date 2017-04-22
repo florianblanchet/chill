@@ -19,15 +19,13 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 app = Flask(__name__)
-
-@app.route('/')
-def mainscript():
-    schedule.every(10).minutes.do(save_news)
+schedule.every(10).minutes.do(save_news)
     schedule.every().day.at("7:00").do(send_welcome)
     while True:
        schedule.run_pending()
        time.sleep(1)
-       print('en vie')
+@app.route('/')
+def mainscript():
     return 'Hello World!'
 
 ############   MSG ACCUEIL   ######
