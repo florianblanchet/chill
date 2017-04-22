@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 import requests
 import os
 import urllib.request
@@ -7,9 +7,6 @@ from sqlalchemy.orm import sessionmaker
 import time
 import schedule
 from sqlalchemy import *
-from threading import Thread
-import time
-
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -316,31 +313,18 @@ def save_news():
             i = news.insert()
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
-
-#schedule.every(1).minutes.do(save_news)
-#schedule.every().day.at("7:00").do(send_welcome)
-#while True:
-    #time.sleep(10)
-    #schedule.run_pending()
-    #time.sleep(30)
-
 start_time = time.time()
-
-def run_every_10_seconds():
-    print("Running periodic task!")
+schedule.every(10).minutes.do(save_news)
+schedule.every().day.at("7:00").do(send_welcome)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
-
-def run_schedule():
-    while 1:
-        schedule.run_pending()
-        time.sleep(1) 
+    print('en vie')
 
 @app.route('/')
 def mainscript():
     return 'Hello World!'
+
 if __name__ == '__main__':
-    schedule.every(10).seconds.do(run_every_10_seconds)
-    t = Thread(target=run_schedule)
-    t.start()
-    print("Start time: " + str(start_time))
     app.run()
