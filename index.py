@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import requests
 import os
 import urllib.request
@@ -7,6 +7,8 @@ from sqlalchemy.orm import sessionmaker
 import time
 import schedule
 from sqlalchemy import *
+from threading import Thread
+
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
