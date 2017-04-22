@@ -4,3 +4,9 @@ SQLAlchemy==1.1.9
 psycopg2==2.7.1
 requests==2.12.4
 urllib3
+Flask==0.12
+gunicorn==19.6.0
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
+psycopg2==2.7.1
