@@ -314,10 +314,11 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 start_time = time.time()
-schedule.every(10).minutes.do(save_news)
-schedule.every().day.at("7:00").do(send_welcome)
+#schedule.every(10).minutes.do(save_news)
+#schedule.every().day.at("7:00").do(send_welcome)
+#schedule.run_pending()
 while True:
-    schedule.run_pending()
+    
     time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
     print('en vie')
@@ -327,4 +328,4 @@ def mainscript():
     return 'Hello World!'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(use_reloader=False)
