@@ -319,10 +319,16 @@ start_time = time.time()
 #schedule.every().day.at("7:00").do(send_welcome)
 #schedule.run_pending()
 while True:
-    time.sleep(5)
+    time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
-    if datetime.now().hour==18 and datetime.now().minute==18 and datetime.now().second==00 : 
-        print("18h15")
+    if datetime.now().hour==18 and datetime.now().minute==30 : 
+        texte = 'il est 18h35'
+        token = os.environ.get('FB_ACCESS_TOKEN')
+        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
+        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+        print(r.text)
+        print("18h25")
+        time.sleep(60)
     print('en vie')
 
 @app.route('/')
