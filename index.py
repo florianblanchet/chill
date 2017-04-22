@@ -316,13 +316,14 @@ def save_news():
 
 schedule.every(10).minutes.do(save_news)
 schedule.every().day.at("7:00").do(send_welcome)
+@app.route('/')
+def mainscript():
+    return 'Hello World!'
+
 while True:
     schedule.run_pending()
     time.sleep(1)
     print('en vie')
-@app.route('/')
-def mainscript():
-    return 'Hello World!'
 
 if __name__ == '__main__':
     app.run()
