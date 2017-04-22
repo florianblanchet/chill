@@ -314,7 +314,7 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 
-schedule.every(5).minutes.do(save_news)
+schedule.every(1).minutes.do(save_news)
 schedule.every().day.at("7:00").do(send_welcome)
 while True:
     #time.sleep(10)
