@@ -321,7 +321,7 @@ start_time = time.time()
 while True:
     time.sleep(5)
     print("Elapsed time: " + str(time.time() - start_time))
-    if datetime.now().hour==18 and datetime.now().minute==15 : 
+    if datetime.now().hour==18 and datetime.now().minute==18 and datetime.now().second==00 : 
         print("18h15")
     print('en vie')
 
