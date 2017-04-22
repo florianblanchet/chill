@@ -317,8 +317,9 @@ def save_news():
 schedule.every(5).minutes.do(save_news)
 schedule.every().day.at("7:00").do(send_welcome)
 while True:
+    #time.sleep(10)
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(30)
 
 @app.route('/')
 def mainscript():
