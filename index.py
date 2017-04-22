@@ -341,5 +341,5 @@ if __name__ == '__main__':
     schedule.every(10).seconds.do(run_every_10_seconds)
     t = Thread(target=run_schedule)
     t.start()
-    print "Start time: " + str(start_time)
+    print("Start time: " + str(start_time))
     app.run()
