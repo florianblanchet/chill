@@ -320,7 +320,9 @@ start_time = time.time()
 while True:
     time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
-    start_time = time.time()
+    if (time.time() - start_time)>30 : 
+        print("30sec !")
+        start_time = time.time()
     print('en vie')
 
 @app.route('/')
