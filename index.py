@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import sessionmaker
 import os
+import urllib.request
 
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
