@@ -22,11 +22,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def mainscript():
-    save_news()
-    userss = liste_user()
-    texte = 'hello'
-    payload = send_text(userss[0][0],texte)
-    send_paquet(userss[0][0],payload)
+    schedule.every(10).minutes.do(save_news)
+    schedule.every().day.at("7:00").do(send_welcome)
+    while True:
+       schedule.run_pending()
+       time.sleep(1)
     return 'Hello World!'
 
 ############   MSG ACCUEIL   ######
@@ -267,6 +267,7 @@ def send_welcome():
         send_paquet(token,payload)
         payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
         send_paquet(token,payload)
+    print('welcome envoyé')
 #send_welcome()
 
 ###########     NEWS    ##########
@@ -324,6 +325,7 @@ def save_news():
             a+=1
             i = news.insert()
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
+    print('news actualisée')
 #save_news()
 
 
