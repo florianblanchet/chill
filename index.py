@@ -314,16 +314,15 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 
-schedule.every(10).minutes.do(save_news)
+schedule.every(5).minutes.do(save_news)
 schedule.every().day.at("7:00").do(send_welcome)
 
 while True:
     schedule.run_pending()
     time.sleep(1)
-    @app.route('/')
+
+@app.route('/')
     def mainscript():
         return 'Hello World!'
-    print('en vie')
-
 if __name__ == '__main__':
     app.run()
