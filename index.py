@@ -318,9 +318,9 @@ start_time = time.time()
 #schedule.every().day.at("7:00").do(send_welcome)
 #schedule.run_pending()
 while True:
-    
     time.sleep(1)
     print("Elapsed time: " + str(time.time() - start_time))
+    start_time = time.time()
     print('en vie')
 
 @app.route('/')
