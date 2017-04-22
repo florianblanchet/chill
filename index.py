@@ -8,6 +8,7 @@ import time
 import schedule
 from sqlalchemy import *
 from threading import Thread
+import time
 
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
