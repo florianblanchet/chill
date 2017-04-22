@@ -24,7 +24,8 @@ app = Flask(__name__)
 def hello_world():
     userss = liste_user()
     texte = 'hello'
-    send_text(userss[0][0],texte)
+    payload = send_text(userss[0][0],texte)
+    send_paquet(userss[0][0],payload)
     return 'Hello World!'
 
 ############   MSG ACCUEIL   ######
