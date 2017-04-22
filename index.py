@@ -6,10 +6,6 @@ from bs4 import BeautifulSoup
 import urllib.request
 from sqlalchemy.orm import sessionmaker
 
-texte ='salut'
-payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
-send_paquet(token,payload)
-
 SQLALCHEMY_DATABASE_URI = os.environ.get('HEROKU_POSTGRESQL_PUCE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 
@@ -18,6 +14,11 @@ engine.echo = False
 metadata = MetaData(engine)
 users = Table('user', metadata, autoload=True)
 news = Table('news', metadata, autoload=True)
+
+texte ='salut'
+payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
+r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -260,7 +261,7 @@ def send_welcome():
         send_paquet(token,payload)
         payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
         send_paquet(token,payload)
-send_welcome()
+#send_welcome()
 
 ###########     NEWS    ##########
 def download_news2():
@@ -317,7 +318,7 @@ def save_news():
             a+=1
             i = news.insert()
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
-
+save_news()
 schedule.every(10).minutes.do(save_news)
 schedule.every().day.at("15:00").do(send_welcome)
 while True:
