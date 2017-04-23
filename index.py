@@ -337,7 +337,7 @@ def save_news():
 #        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
 #        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
 #        print(r.text)
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def mainscript():
     save_news()
     return 'Hello World!'
