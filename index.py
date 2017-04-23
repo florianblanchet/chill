@@ -310,7 +310,7 @@ def save_news():
         d.execute()
         for article in categorie:
             i = news.insert()
-            i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
+            i.execute(categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 start_time = time.time()
 #schedule.every(10).minutes.do(save_news)
