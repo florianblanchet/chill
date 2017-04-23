@@ -313,7 +313,21 @@ def save_news():
             a+=1
             i = news.insert()
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
-    print('news actualisée')
+    print('news actualisée') 
+
+@app.route('/', methods=['GET', 'POST'])
+def mainscript():
+    save_news()
+    return 'Réponse Serveur : News actualisé'
+
+@app.route('/welcome')
+def mainscript():
+    send_welcome()
+    print('welcome')
+    return 'welcome'
+
+if __name__ == '__main__':
+    app.run()
 #start_time = time.time()
 #schedule.every(10).minutes.do(save_news)
 #schedule.every().day.at("7:00").do(send_welcome)
@@ -337,10 +351,3 @@ def save_news():
 #        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
 #        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
 #        print(r.text)
-@app.route('/', methods=['GET', 'POST'])
-def mainscript():
-    save_news()
-    return 'Réponse Serveur : News actualisé'
-
-if __name__ == '__main__':
-    app.run()
