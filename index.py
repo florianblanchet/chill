@@ -321,7 +321,7 @@ while True:
     if datetime.now().minute in [00,10,20,30,40,50] : 
         save_news()
         print("news actualisée")
-    if datetime.now().hour==4 and datetime.now().minute==00:
+    if datetime.now().hour==9 and datetime.now().minute==00:
         texte = 'il est 12h wake up'
         token = os.environ.get('FB_ACCESS_TOKEN')
         payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
