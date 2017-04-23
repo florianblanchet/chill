@@ -305,30 +305,29 @@ def save_news():
     sport = news_liste['sport']
     sante = news_liste['sante']
     liste = [[une,'une'],[world,'world'],[france,'france'],[economie,'economie'],[science,'science'],[culture,'culture'],[sport,'sport'],[sante,'sante']]
-    d = news.delete()
-    d.execute()
     for categorie,nom_categorie in liste :
-        
+        d = news.delete(news.c.categorie == nom_categorie)
+        d.execute()
         for article in categorie:
             i = news.insert()
             i.execute(categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
-start_time = time.time()
+#start_time = time.time()
 #schedule.every(10).minutes.do(save_news)
 #schedule.every().day.at("7:00").do(send_welcome)
 #schedule.run_pending()
-while True:
-    time.sleep(20)
-    if datetime.now().minute in [00,10,20,30,40,50] : 
-        save_news()
-        print("news actualisée")
-    if datetime.now().hour==9 and datetime.now().minute==00:
-        texte = 'il est 12h wake up'
-        token = os.environ.get('FB_ACCESS_TOKEN')
-        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
-        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-        time.sleep(30)
-        print('wakeup à 12h')
+#while True:
+#    time.sleep(20)
+#    if datetime.now().minute in [00,10,20,30,40,50] : 
+#        save_news()
+#        print("news actualisée")
+#    if datetime.now().hour==9 and datetime.now().minute==00:
+#        texte = 'il est 12h wake up'
+#        token = os.environ.get('FB_ACCESS_TOKEN')
+#        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
+#        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+#        time.sleep(30)
+#        print('wakeup à 12h')
         
     #print('en vie')
 #texte = 'il est 18h35'
@@ -338,6 +337,7 @@ while True:
 #        print(r.text)
 @app.route('/')
 def mainscript():
+    save_news()
     return 'Hello World!'
 
 if __name__ == '__main__':
