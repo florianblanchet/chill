@@ -321,7 +321,7 @@ def mainscript():
     return 'Réponse Serveur : News actualisé'
 
 @app.route('/welcome')
-def mainscript():
+def welcome():
     send_welcome()
     print('welcome')
     return 'welcome'
