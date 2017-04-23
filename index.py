@@ -305,9 +305,10 @@ def save_news():
     sport = news_liste['sport']
     sante = news_liste['sante']
     liste = [[une,'une'],[world,'world'],[france,'france'],[economie,'economie'],[science,'science'],[culture,'culture'],[sport,'sport'],[sante,'sante']]
+    d = news.delete()
+    d.execute()
     for categorie,nom_categorie in liste :
-        d = news.delete(news.c.categorie == nom_categorie)
-        d.execute()
+        
         for article in categorie:
             i = news.insert()
             i.execute(categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
