@@ -340,7 +340,7 @@ def save_news():
 @app.route('/', methods=['GET', 'POST'])
 def mainscript():
     save_news()
-    return 'Hello World!'
+    return 'Réponse Serveur : News actualisé'
 
 if __name__ == '__main__':
     app.run()
