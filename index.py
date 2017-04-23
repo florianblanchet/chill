@@ -305,12 +305,14 @@ def save_news():
     sport = news_liste['sport']
     sante = news_liste['sante']
     liste = [[une,'une'],[world,'world'],[france,'france'],[economie,'economie'],[science,'science'],[culture,'culture'],[sport,'sport'],[sante,'sante']]
+    a=0
     for categorie,nom_categorie in liste :
         d = news.delete(news.c.categorie == nom_categorie)
         d.execute()
         for article in categorie:
+            a+=1
             i = news.insert()
-            i.execute(categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
+            i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée')
 #start_time = time.time()
 #schedule.every(10).minutes.do(save_news)
