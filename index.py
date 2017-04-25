@@ -1,11 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os
 import urllib.request
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import sessionmaker
 import time
-import schedule
 from sqlalchemy import *
 from datetime import datetime 
 
@@ -26,12 +25,17 @@ def mainscript():
     save_news()
     return 'Réponse Serveur : News actualisé'
 
-## Marche pas fait planter le serveur
+# Marche pas fait planter le serveur
 @app.route('/welcome')
 def welcome():
-    send_welcome()
+    #send_welcome()
     print('welcome')
     return 'welcome'
+
+@app.route('/snake')
+def snake():
+    print('Lance le snake')
+    return render_template('index.html')
 
 
 ############ Send welcome   ##########
@@ -259,18 +263,18 @@ def liste_user():
     for userss in session.query(users):
         liste_id.append([str(userss.user_id),str(userss.first_name)])
     return liste_id 
-def send_welcome():
-    liste_users = liste_user()
-    une = extract_news('une')
-    print("téléchargé")
-    for user in liste_users:
-        print(user)
-        texte = "Salut "+user[1]+"!\n"+"Commençons la journée avec un petit résumé de l'actu 😁 :"
-        payload = send_text(user[0],texte)
-        send_paquet(token,payload)
-        payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
-        send_paquet(token,payload)
-    print('welcome envoyé')
+#def send_welcome():
+    #liste_users = liste_user()
+    #une = extract_news('une')
+    #print("téléchargé")
+    #for user in liste_users:
+    #    print(user)
+    #    texte = "Salut "+user[1]+"!\n"+"Commençons la journée avec un petit résumé de l'actu 😁 :"
+    #    payload = send_text(user[0],texte)
+    #    send_paquet(token,payload)
+    #    payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
+    #    send_paquet(token,payload)
+    #print('welcome envoyé')
 
 ###########   Exctract  NEWS    ##########
 def download_news2():

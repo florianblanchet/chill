@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML>
+<!-- Source : https://github.com/leviathan747/snake/tree/master/play -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible', content='IE=edge,chrome=1'>
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <title>Snake!</title>
+
+        <!-- favicon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico?v=1') }}">
+        
+        <!-- styling -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+        <!-- libraries -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-2.1.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/array_clone.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/history.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/lib/fastclick.js') }}"></script>
+
+        <!-- sideloader script -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/sideloader.js') }}"></script>
+
+        <!-- snake script -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/snake.js') }}""></script>
+
+    </head>
+    <body>
+        <div id="pane" class="pane">
+            <div id="board" class="board">
+                <div id="message" class="message"></div>
+                <div id="food" class="block food"></div>
+            </div>
+        </div>
+        <div id="buttons-1" class="buttons-1">
+            <div id="top-left" class="button btn-top"></div>
+            <div id="bottom-left" class="button btn-bottom"></div>
+        </div>
+        <div id="buttons-2" class="buttons-2">
+            <div id="top-right" class="button btn-top"></div>
+            <div id="bottom-right" class="button btn-bottom"></div>
+        </div>
+        <div id="cheat-box" class="cheat-box hidden">
+            <div style="position:relative;height:10%;border:1px solid white">
+                <table style="height:100%;width:100%"><tr>
+                    <td class="title" id="title">None</td>
+                    <td class="control-btn" id="clear">Clear</td>
+                    <td class="control-btn" id="exit">Exit</td>
+                </tr></table>
+            </div>
+            <div id="cheat-table" style="position:relative;height:80%;overflow-x:hidden;overflow-y:scroll"></div>
+            <div style="position:relative;height:10%">
+                <table style="height:100%;width:100%"><tr>
+                <td id="load" class="load-btn">Load</td>
+                <td class="load-btn upload-btn">Upload<input type="file" id="upload" class="uploader"></td>
+                </tr></table>
+            </div>
+        </div>
+        <div id="cheat-container"></div>
+    </body>
+</html>
