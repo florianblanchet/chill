@@ -8,6 +8,7 @@ import time
 import schedule
 from sqlalchemy import *
 from datetime import datetime 
+
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 token = os.environ.get('FB_ACCESS_TOKEN')
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -15,23 +16,25 @@ engine.echo = False
 metadata = MetaData(engine)
 users = Table('user', metadata, autoload=True)
 news = Table('news', metadata, autoload=True)
-
 Session = sessionmaker(bind=engine)
 session = Session()
-
 app = Flask(__name__)
-############   MSG ACCUEIL   ######
-def liste_user():
-    liste_id=[]
-    for userss in session.query(users):
-        liste_id.append([str(userss.user_id),str(userss.first_name)])
-    return liste_id 
-def send_paquet(sender,payload):
-    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-    print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
-    pass
 
-############ SAuvegarde de news   ##########
+
+@app.route('/', methods=['GET', 'POST'])
+def mainscript():
+    save_news()
+    return 'Réponse Serveur : News actualisé'
+
+## Marche pas fait planter le serveur
+@app.route('/welcome')
+def welcome():
+    send_welcome()
+    print('welcome')
+    return 'welcome'
+
+
+############ Send welcome   ##########
 def send_link6 (sender,title1,subtitle1,image_url1,link1,title2,subtitle2,image_url2,link2,title3,subtitle3,image_url3,link3,title4,subtitle4,image_url4,link4,title5,subtitle5,image_url5,link5,title6,subtitle6,image_url6,link6):
     return {
     "recipient": {
@@ -237,6 +240,10 @@ def send_link6 (sender,title1,subtitle1,image_url1,link1,title2,subtitle2,image_
 def send_text (sender,texte):
 
     return {'recipient': {'id': sender}, 'message': {'text': texte}}
+def send_paquet(sender,payload):
+    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+    print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
+    pass
 def extract_news(categorie):
     articles = []
     for newss in session.query(news).filter_by(categorie=categorie):
@@ -247,11 +254,17 @@ def extract_news(categorie):
         article['image'] = newss.image
         articles.append(article)
     return articles
+def liste_user():
+    liste_id=[]
+    for userss in session.query(users):
+        liste_id.append([str(userss.user_id),str(userss.first_name)])
+    return liste_id 
 def send_welcome():
     liste_users = liste_user()
     une = extract_news('une')
     print("téléchargé")
     for user in liste_users:
+        print(user)
         texte = "Salut "+user[1]+"!\n"+"Commençons la journée avec un petit résumé de l'actu 😁 :"
         payload = send_text(user[0],texte)
         send_paquet(token,payload)
@@ -259,7 +272,7 @@ def send_welcome():
         send_paquet(token,payload)
     print('welcome envoyé')
 
-###########     NEWS    ##########
+###########   Exctract  NEWS    ##########
 def download_news2():
     req = urllib.request.Request('https://news.google.com/?edchanged=1&ned=fr&authuser=0')
     the_page = urllib.request.urlopen(req)
@@ -315,39 +328,5 @@ def save_news():
             i.execute(id=a,categorie=nom_categorie,titre=article['titre'],journal=article['journal'],lien=article['lien'],image=article['image'])
     print('news actualisée') 
 
-@app.route('/', methods=['GET', 'POST'])
-def mainscript():
-    save_news()
-    return 'Réponse Serveur : News actualisé'
-
-@app.route('/welcome')
-def welcome():
-    send_welcome()
-    print('welcome')
-    return 'welcome'
-
 if __name__ == '__main__':
     app.run()
-#start_time = time.time()
-#schedule.every(10).minutes.do(save_news)
-#schedule.every().day.at("7:00").do(send_welcome)
-#schedule.run_pending()
-#while True:
-#    time.sleep(20)
-#    if datetime.now().minute in [00,10,20,30,40,50] : 
-#        save_news()
-#        print("news actualisée")
-#    if datetime.now().hour==9 and datetime.now().minute==00:
-#        texte = 'il est 12h wake up'
-#        token = os.environ.get('FB_ACCESS_TOKEN')
-#        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
-#        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-#        time.sleep(30)
-#        print('wakeup à 12h')
-        
-    #print('en vie')
-#texte = 'il est 18h35'
-#        token = os.environ.get('FB_ACCESS_TOKEN')
-#        payload = {'recipient': {'id': '1086165011488571'}, 'message': {'text': texte}}
-#        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-#        print(r.text)
