@@ -7,11 +7,11 @@ const Snake = (function() {
     "use strict";
 
     // CONSTANTS (defaults for mobile) //
-    var SPEED = 5;            // milliseconds between update. 
+    var SPEED = 10;            // milliseconds between update. 
     var SIZE = 15;              // block size
     var LENGTH = 5;             // length of the snake initially
 
-    var DESKTOP_SPEED = 50;
+    var DESKTOP_SPEED = 10;
     var DESKTOP_SIZE = 20;
 
     var DESKTOP_CHEAT = "up,left,down,left,right,right,right";
