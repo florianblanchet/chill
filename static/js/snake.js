@@ -7,7 +7,7 @@ const Snake = (function() {
     "use strict";
 
     // CONSTANTS (defaults for mobile) //
-    var SPEED = 100;            // milliseconds between update. 
+    var SPEED = 5;            // milliseconds between update. 
     var SIZE = 15;              // block size
     var LENGTH = 5;             // length of the snake initially
 
@@ -37,6 +37,9 @@ const Snake = (function() {
     var loop;                   // interval loop object
 
     var direction;              // direction to update in
+    var directionPrec; //direction precedente
+    var listeDirection = [right(),down(),left(),up()];
+
     var blocks;
 
     var tail;                   // pointer to the tail block
@@ -229,13 +232,11 @@ const Snake = (function() {
     }
 
     function keyHandler(e) {
-        //console.log(e.keyCode);
-        if (e.keyCode == 37) history.add("left");
-        else if (e.keyCode == 38) history.add("up");
-        else if (e.keyCode == 39) history.add("right");
-        else if (e.keyCode == 40) history.add("down");
-        else history.add("");
-
+        console.log(e.keyCode);
+        //console.log(direction.x);
+        //console.log(direction.y);
+        var prec = history.prec();
+        console.log(prec);
         // check cheat
         if (history.toString() == DESKTOP_CHEAT) enableCheat();
 
@@ -244,10 +245,18 @@ const Snake = (function() {
 
         // arrow keys
         if (running && !turned) {
-            if (e.keyCode == 37 && direction.y != 0) left();
-            else if (e.keyCode == 38 && direction.x != 0) up();
-            else if (e.keyCode == 39 && direction.y != 0) right();
-            else if (e.keyCode == 40 && direction.x != 0) down();
+            if (e.keyCode == 39 && prec=="left") down(),history.add("up");
+            else if (e.keyCode == 39 && prec=="up") left(),history.add("right");
+            else if (e.keyCode == 39 && prec=="right") up(),history.add("down");
+            else if (e.keyCode == 39 && prec=="down") right(),history.add("left");
+            else if (e.keyCode == 37 && prec=="left") up(),history.add("down");
+            else if (e.keyCode == 37 && prec=="up") right(),history.add("left");
+            else if (e.keyCode == 37 && prec=="right") down(),history.add("up");
+            else if (e.keyCode == 37 && prec=="down") left(),history.add("right");
+            else if (e.keyCode == 37 && prec=="pane") up(),history.add("down");
+            else if (e.keyCode == 39 && prec=="pane") down(),history.add("up");
+            else if (e.keyCode == 37 && prec=="") up(),history.add("down");
+            else if (e.keyCode == 39 && prec=="") down(),history.add("up");
             else {}
             turned = true;
         }
@@ -259,19 +268,18 @@ const Snake = (function() {
         else {}
 
     }
-
     function tapHandler(e) {
-        //console.log(e.target);
-
+        console.log(e.target);
+        var prec = history.prec();
+        console.log(prec);
         // determine which key
         var key = "pane";
-        if (e.target == document.getElementById("top-left")) key = "up left";
-        else if (e.target == document.getElementById("bottom-left")) key = "down left";
-        else if (e.target == document.getElementById("top-right")) key = "up right";
-        else if (e.target == document.getElementById("bottom-right")) key = "down right";
-
+        if (e.target == document.getElementById("top-left")) key = "left";
+        else if (e.target == document.getElementById("bottom-left")) key = "left";
+        else if (e.target == document.getElementById("top-right")) key = "right";
+        else if (e.target == document.getElementById("bottom-right")) key = "right";
         // check cheat
-        history.add(key);
+        //history.add(key);
         if (history.toString() == MOBILE_CHEAT) enableCheat();
 
         // check sideloader
@@ -279,16 +287,24 @@ const Snake = (function() {
 
         // arrows
         if (running && !turned) {
-            if (new RegExp("left").test(key) && direction.y != 0) left();
-            else if (new RegExp("up").test(key) && direction.x != 0) up();
-            else if (new RegExp("right").test(key) && direction.y != 0) right();
-            else if (new RegExp("down").test(key) && direction.x != 0) down();
+            if (key == "right" && prec=="left") down(),history.add("up");
+            else if (key == "right" && prec=="up") left(),history.add("right");
+            else if (key == "right" && prec=="right") up(),history.add("down");
+            else if (key == "right" && prec=="down") right(),history.add("left");
+            else if (key == "left" && prec=="left") up(),history.add("down");
+            else if (key == "left" && prec=="up") right(),history.add("left");
+            else if (key == "left" && prec=="right") down(),history.add("up");
+            else if (key == "left" && prec=="down") left(),history.add("right");
+            else if (key == "left" && prec=="pane") up(),history.add("down");
+            else if (key == "right" && prec=="pane") down(),history.add("up");
+            else if (key == "left" && prec=="") up(),history.add("down");
+            else if (key == "right" && prec=="") down(),history.add("up");
             else {}
             turned = true;
         }
 
         // pause
-        if (new RegExp("pane").test(key)) {
+        if (key=="pane") {
             if (!Sideloader.visible()) pause();
         }
     }

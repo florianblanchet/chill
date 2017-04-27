@@ -9,12 +9,13 @@ const FixedQueue = (function() {
         this.history = new Array(size);
         for (var i = 0; i < size; i++) this.history[i] = "";
     }
-
     FixedQueue.prototype.add = function(string) {
         this.history.shift();
         this.history.push(string);
     }
-
+    FixedQueue.prototype.prec = function() {
+        return this.history[this.size -1];
+    }
     FixedQueue.prototype.toString = function() {
         return this.history.join(",");
     }

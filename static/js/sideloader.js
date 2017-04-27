@@ -12,7 +12,7 @@ const Sideloader = (function() {
         $("#cheat-table").empty();
 
         // get cheat index
-        $.get("js/cheat/index.json", null, function(cheats) {
+        $.get("static/js/cheat/index.json", null, function(cheats) {
             for (var i = 0; i < cheats.length; i++) {
                 $("#cheat-table").append("<div class='cheat-row'><div>" + cheats[i].name + "</div><div class='description hidden'>" + cheats[i].description + "</div></div");
             }

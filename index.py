@@ -8,9 +8,18 @@ import time
 from sqlalchemy import *
 from datetime import datetime 
 
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-token = os.environ.get('FB_ACCESS_TOKEN')
-engine = create_engine(SQLALCHEMY_DATABASE_URI)
+#SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+#token = os.environ.get('FB_ACCESS_TOKEN')
+token = 'blabla'
+POSTGRES = {
+    'user': 'postgres',
+    'pw': 'salade23',
+    'db': 'haldb',
+    'host': 'localhost',
+    'port': '5432',
+ }
+engine = create_engine('postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s'%POSTGRES)
+#engine = create_engine(SQLALCHEMY_DATABASE_URI)
 engine.echo = False
 metadata = MetaData(engine)
 users = Table('user', metadata, autoload=True)
