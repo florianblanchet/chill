@@ -1,30 +1,19 @@
-// cheat plugin interface
-var Cheat;
-
 // snake game logic
 const Snake = (function() { 
 
     "use strict";
-
     // CONSTANTS (defaults for mobile) //
-    var SPEED = 10;            // milliseconds between update. 
+    var SPEED = 100;            // milliseconds between update. 
     var SIZE = 15;              // block size
     var LENGTH = 5;             // length of the snake initially
 
-    var DESKTOP_SPEED = 10;
+    var DESKTOP_SPEED = 100;
     var DESKTOP_SIZE = 20;
-
-    var DESKTOP_CHEAT = "up,left,down,left,right,right,right";
-    var MOBILE_CHEAT = "up left,down left,down right,down left,up right,up right,up right";
-
-    var DESKTOP_SIDELOADER = "down,up,down,left,right,down,down";
-    var MOBILE_SIDELOADER = "down right,up left,down right,down left,up right,down right,down right";
 
     var running;                // if a game has been started
     var set;                    // if a game is ready
     var turned;                 // to keep from turning more than once per update
 
-    var cheatEnabled;           // is the cheat function active
     var history;                // button history to enable cheat
 
     var score;                  // current score
@@ -37,8 +26,6 @@ const Snake = (function() {
     var loop;                   // interval loop object
 
     var direction;              // direction to update in
-    var directionPrec; //direction precedente
-    var listeDirection = [right(),down(),left(),up()];
 
     var blocks;
 
@@ -46,29 +33,7 @@ const Snake = (function() {
     var head;                   // pointer to head block
 
     function update() {
-        // execute cheat
-        if (cheatEnabled) {
-            // validate the cheat method
-            if (Cheat && typeof(Cheat.cheat) == "function") {
-                var new_direction = Cheat.cheat();      // execute cheat
-
-                // validate returned direction
-                if (new_direction &&                                                                            // direction exists
-                    typeof(new_direction.x) == "number" && new_direction.x >= -1 && new_direction.x <= 1 &&     // x is a number between -1 and 1
-                    typeof(new_direction.y) == "number" && new_direction.y >= -1 && new_direction.y <= 1 &&     // y is a number between -1 and 1
-                    (Math.abs(new_direction.x) + Math.abs(new_direction.y) == 1) &&                             // not a diagonal move or no move
-                    !(new_direction.x == 0 && direction.x == 0) &&                                              // not a 180
-                    !(new_direction.y == 0 && direction.y == 0) ) {
-                    direction = new_direction;
-                }
-            }
-            else {
-                // disable cheat
-                cheatEnabled = false;
-                $("#board").removeClass("red-border");
-                $(".button").removeClass("red-border");
-            }
-        }
+        $("#board").removeClass("red-border");
 
         // set new position
         var x = head.x + direction.x;
@@ -196,52 +161,12 @@ const Snake = (function() {
         }
     }
 
-    function enableCheat() {
-        if (Cheat) {
-            if (cheatEnabled) {
-                // disable cheat
-                cheatEnabled = false;
-                $("#board").removeClass("red-border");
-                $(".button").removeClass("red-border");
-            }
-            else {
-                // enable cheat
-                cheatEnabled = true;
-                $("#board").addClass("red-border");
-                $(".button").addClass("red-border");
-            }
-        }
-    }
-
-    function enableSideloader() {
-        if (running) pause();
-        if (Sideloader.visible()) {
-            Sideloader.hide();
-
-            // set timeout to avoid double click
-            setTimeout(function() {
-                // initiate touchscreen listener
-                $(document).click(function(e) {tapHandler(e);});
-            }, 10);
-        }
-        else {
-            Sideloader.show();
-            // initiate touchscreen listener
-            $(document).unbind("click");
-        }
-    }
-
     function keyHandler(e) {
         console.log(e.keyCode);
         //console.log(direction.x);
         //console.log(direction.y);
         var prec = history.prec();
         console.log(prec);
-        // check cheat
-        if (history.toString() == DESKTOP_CHEAT) enableCheat();
-
-        // check sideloader
-        if (history.toString() == DESKTOP_SIDELOADER) enableSideloader();
 
         // arrow keys
         if (running && !turned) {
@@ -259,14 +184,10 @@ const Snake = (function() {
             else if (e.keyCode == 39 && prec=="") down(),history.add("up");
             else {}
             turned = true;
-        }
-        
+        }   
         // space bar
-        if (e.keyCode == 32) {
-            if (!Sideloader.visible()) pause();
-        }
+        if (e.keyCode == 32)pause();
         else {}
-
     }
     function tapHandler(e) {
         console.log(e.target);
@@ -275,15 +196,7 @@ const Snake = (function() {
         // determine which key
         var key = "pane";
         if (e.target == document.getElementById("top-left")) key = "left";
-        else if (e.target == document.getElementById("bottom-left")) key = "left";
         else if (e.target == document.getElementById("top-right")) key = "right";
-        else if (e.target == document.getElementById("bottom-right")) key = "right";
-        // check cheat
-        //history.add(key);
-        if (history.toString() == MOBILE_CHEAT) enableCheat();
-
-        // check sideloader
-        if (history.toString() == MOBILE_SIDELOADER) enableSideloader();
 
         // arrows
         if (running && !turned) {
@@ -304,9 +217,8 @@ const Snake = (function() {
         }
 
         // pause
-        if (key=="pane") {
-            if (!Sideloader.visible()) pause();
-        }
+        if (key=="pane")pause();
+        else {}
     }
 
     function resizeWindow() {
@@ -405,11 +317,6 @@ const Snake = (function() {
 
         // initiate touchscreen listener
         $(document).click(function(e) {tapHandler(e);});
-
-        // sideloader exit listener
-        $("#exit").click(function() {
-            enableSideloader();
-        });
 
         // initiate resize listener
         $(window).resize(function(e) {

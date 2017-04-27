@@ -76,26 +76,6 @@ body {
     cursor: default;
 }
 
-.title {
-    position: relative;
-    background: black;
-    padding: 0 20px;
-    color: red;
-    border: 1px solid white;
-}
-
-.control-btn {
-    position: relative;
-    width: 50px;
-    background: black;
-    border: 1px solid white;
-    text-align: center;
-    padding: 0 10px;
-}
-.control-btn:hover,active {
-    color: red;
-}
-
 .cheat-row {
     line-height: 40px;
     border: 1px solid white;
@@ -111,31 +91,6 @@ body {
 
 .description {
     line-height: 25px;
-}
-
-.load-btn {
-    position: relative;
-    width: 50%;
-    background: black;
-    border: 1px solid white;
-    text-align: center;
-}
-.load-btn:hover,active {
-    color: red;
-}
-
-.upload-btn {
-    display: none;
-    visibility: hidden;
-}
-
-.uploader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
 }
 
 .buttons-1 {
@@ -168,12 +123,7 @@ body {
 
 .btn-top {
     top: 0;
-    height: 50%;
-}
-
-.btn-bottom {
-    top: 50%;
-    height: 50%;
+    height: 100%;
 }
 
 .red-border {
@@ -217,16 +167,6 @@ body {
         left: 10%;
         height: 80%;
         width: 80%;
-    }
-    .title {
-        font-size: 25px;
-    }
-    .control-btn {
-        width: 100px;
-    }
-    .upload-btn {
-        display: table-cell;
-        visibility: visible;
     }
     .description {
         font-size: 15px;
